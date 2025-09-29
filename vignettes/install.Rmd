@@ -13,18 +13,16 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-
+##
 The main purpose of `delimtools` is to provide helper functions for analyzing single locus species delimitation outputs. To generate this type of data, it is necessary to install third-party software and use the appropriate `*_tbl()` functions to parse these results in a tabular format.
-
-<br>
 
 ```{r, echo= FALSE}
 
 tbls <- tibble::tibble(Function= paste0(c("abgd", "asap", "bgmyc", "gmyc", "locmin", "mptp"), "_tbl()"),
                        Software= c("ABGD", "ASAP", "bGMYC", "splits", "spider", "mptp"),
                        Language= c("C", "C", "R", "R" , "R", "C"),
-                       Source= c("https://bioinfo.mnhn.fr/abi/public/abgd/abgdweb.html",
-                                 "https://bioinfo.mnhn.fr/abi/public/asap/",
+                       Source= c("bioinfo.mnhn.fr/abi/public/abgd/abgdweb.html",
+                                 "bioinfo.mnhn.fr/abi/public/asap/",
                                  "https://nreid.github.io/software/",
                                  "https://splits.r-forge.r-project.org/",
                                  "https://github.com/boopsboops/spider",
@@ -50,7 +48,7 @@ The `splits` package can be installed using R-Forge repository. Set `dependencie
 package. 
 
 ```{r, eval= FALSE}
-install.packages("splits", repos = "http://R-Forge.R-project.org", dependencies = TRUE)
+install.packages("splits", repos = "https://r-forge.r-project.org/", dependencies = TRUE)
 
 ```
 
@@ -71,12 +69,12 @@ you can try to use a C compiler to create executable files for these software bu
 work as intended. Alternativelly, you may use the currently available Web servers of these software to generate 
 results and import them using its respective `*_tbl()` functions.
 
-## ABGD
+### ABGD
 
 To install `ABGD`, download latest release, decompress and compile. Optionally, you may add the
 folder to your PATH environment variable or move it to `/usr/local/bin`.
 ```{bash, eval= FALSE, engine= "sh"}
-wget https://bioinfo.mnhn.fr/abi/public/abgd/last.tgz -O abgd.tgz
+wget https\://bioinfo.mnhn.fr/abi/public/abgd/last.tgz -O abgd.tgz
 tar -xzvf abgd.tgz
 cd Abgd
 make
@@ -86,11 +84,11 @@ cd ..
 
 ```
 
-## ASAP
+### ASAP
 To install `ASAP`, download latest release, decompress and compile. Optionally, you may add the
 folder to your PATH environment variable or move it to `/usr/local/bin`.
 ```{bash, eval= FALSE, engine= "sh"}
-wget https://bioinfo.mnhn.fr/abi/public/asap/last.tgz
+wget https\://bioinfo.mnhn.fr/abi/public/asap/last.tgz
 tar -xzvf last.tgz
 cd ASAP
 make
@@ -100,7 +98,7 @@ cd ..
 
 ```
 
-## mPTP
+### mPTP
 To install `mPTP`, you can check [mPTP repository](https://github.com/Pas-Kapli/mptp) and follow their
 instructions.
 

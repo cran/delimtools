@@ -48,8 +48,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -341,18 +342,19 @@ Softwares</h1>
 
 
 
+<div id="section" class="section level2">
+<h2></h2>
 <p>The main purpose of <code>delimtools</code> is to provide helper
 functions for analyzing single locus species delimitation outputs. To
 generate this type of data, it is necessary to install third-party
 software and use the appropriate <code>*_tbl()</code> functions to parse
 these results in a tabular format.</p>
-<p><br></p>
 <table>
 <colgroup>
-<col width="15%" />
-<col width="10%" />
+<col width="16%" />
 <col width="11%" />
-<col width="62%" />
+<col width="12%" />
+<col width="58%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -367,13 +369,13 @@ these results in a tabular format.</p>
 <td align="left">abgd_tbl()</td>
 <td align="left">ABGD</td>
 <td align="center">C</td>
-<td align="left"><a href="https://bioinfo.mnhn.fr/abi/public/abgd/abgdweb.html" class="uri">https://bioinfo.mnhn.fr/abi/public/abgd/abgdweb.html</a></td>
+<td align="left">bioinfo.mnhn.fr/abi/public/abgd/abgdweb.html</td>
 </tr>
 <tr class="even">
 <td align="left">asap_tbl()</td>
 <td align="left">ASAP</td>
 <td align="center">C</td>
-<td align="left"><a href="https://bioinfo.mnhn.fr/abi/public/asap/" class="uri">https://bioinfo.mnhn.fr/abi/public/asap/</a></td>
+<td align="left">bioinfo.mnhn.fr/abi/public/asap/</td>
 </tr>
 <tr class="odd">
 <td align="left">bgmyc_tbl()</td>
@@ -401,6 +403,7 @@ these results in a tabular format.</p>
 </tr>
 </tbody>
 </table>
+</div>
 <div id="install-r-packages" class="section level2">
 <h2>Install R packages</h2>
 <div id="spider" class="section level3">
@@ -415,7 +418,7 @@ its installation is straightforward:</p>
 <p>The <code>splits</code> package can be installed using R-Forge
 repository. Set <code>dependencies = TRUE</code> to install
 <code>paran</code> package.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;splits&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;http://R-Forge.R-project.org&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;splits&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;https://r-forge.r-project.org/&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="bgmyc" class="section level3">
 <h3>bGMYC</h3>
@@ -438,13 +441,12 @@ for these software but we do not guarantee it will work as intended.
 Alternativelly, you may use the currently available Web servers of these
 software to generate results and import them using its respective
 <code>*_tbl()</code> functions.</p>
-</div>
-<div id="abgd" class="section level2">
-<h2>ABGD</h2>
+<div id="abgd" class="section level3">
+<h3>ABGD</h3>
 <p>To install <code>ABGD</code>, download latest release, decompress and
 compile. Optionally, you may add the folder to your PATH environment
 variable or move it to <code>/usr/local/bin</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">wget</span> https://bioinfo.mnhn.fr/abi/public/abgd/last.tgz <span class="at">-O</span> abgd.tgz</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">wget</span> https\://bioinfo.mnhn.fr/abi/public/abgd/last.tgz <span class="at">-O</span> abgd.tgz</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzvf</span> abgd.tgz</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="bu">cd</span> Abgd</span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">make</span></span>
@@ -452,12 +454,12 @@ variable or move it to <code>/usr/local/bin</code>.</p>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">mv</span> abgd bin/abgd</span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="bu">cd</span> ..</span></code></pre></div>
 </div>
-<div id="asap" class="section level2">
-<h2>ASAP</h2>
+<div id="asap" class="section level3">
+<h3>ASAP</h3>
 <p>To install <code>ASAP</code>, download latest release, decompress and
 compile. Optionally, you may add the folder to your PATH environment
 variable or move it to <code>/usr/local/bin</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">wget</span> https://bioinfo.mnhn.fr/abi/public/asap/last.tgz</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">wget</span> https\://bioinfo.mnhn.fr/abi/public/asap/last.tgz</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzvf</span> last.tgz</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="bu">cd</span> ASAP</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">make</span></span>
@@ -465,10 +467,11 @@ variable or move it to <code>/usr/local/bin</code>.</p>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">mv</span> asap bin/asap</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="bu">cd</span> ..</span></code></pre></div>
 </div>
-<div id="mptp" class="section level2">
-<h2>mPTP</h2>
+<div id="mptp" class="section level3">
+<h3>mPTP</h3>
 <p>To install <code>mPTP</code>, you can check <a href="https://github.com/Pas-Kapli/mptp">mPTP repository</a> and follow
 their instructions.</p>
+</div>
 </div>
 
 

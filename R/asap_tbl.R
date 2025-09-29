@@ -2,7 +2,7 @@
 #'
 #' @description
 #' `asap_tbl()` returns species partition hypothesis estimated by ASAP software
-#' <https://bioinfo.mnhn.fr/abi/public/asap/>.
+#' (https://bioinfo.mnhn.fr/abi/public/asap/).
 #'
 #' @param infile Path to fasta file.
 #' @param exe Path to an ASAP executable.
@@ -25,7 +25,7 @@
 #' `asap_tbl()` saves all output files in `outfolder` and imports the first partition
 #' file generated to `Environment`.
 #' Alternatively, `asap_tbl()` can parse a .csv file obtained from webserver such as 
-#' <https://bioinfo.mnhn.fr/abi/public/asap/asapweb.html>.
+#' (https://bioinfo.mnhn.fr/abi/public/asap/asapweb.html).
 #'
 #' @return
 #' an object of class [tbl_df][tibble::tbl_df]
@@ -67,6 +67,12 @@ asap_tbl <- function(infile, exe = NULL, haps = NULL, model = 3, outfolder = NUL
   if(!is.null(webserver) && file.exists(webserver)) {
     
     delim <- readr::read_csv(webserver, col_names = c("labels", delimname), col_types = "c")
+    
+    if(!is.null(haps)){
+      
+      delim <- delim |>
+        dplyr::filter(labels %in% haps)
+    }
     
     return(delim)
     
