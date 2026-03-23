@@ -8,7 +8,6 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/delimtools)](https://cran.r-project.org/package=delimtools)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/delimtools)](https://cran.r-project.org/package=delimtools)
-[![R-CMD-check](https://github.com/legalLab/delimtools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/legalLab/delimtools/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## IMPORTANT
@@ -17,17 +16,20 @@ This software is under active development, and as such cannot be assumed
 to be free of bugs or poor functionality. Always inspect results
 carefully. If you find a problem, please report it with as much detail
 as possible in [Issues](https://github.com/LegalLab/delimtools/issues).
-Unfortunately in it’s current form, some of the functions (`abgd_tbl()`,
-`asap_tbl()` and `mptp_tbl()`) will not work on Windows operating
-systems, only on Unix (MacOS, Linux). This is because third party
-binaries (executable programs) are required. We are working to implement
-importing results from the webservers that are commonly used to run
-these analyses. There are also difficulties with installing R required
-package dependancies to run `gmyc_tbl()` and `bgmyc_tbl()` because these
-are no longer under development and available on CRAN, and must be
-installed from archived sources. Please refer to
-<https://legallab.github.io/delimtools/articles/install.html> for
-instructions on how to install.
+Unfortunately in its current form, some of the functions (`abgd_tbl()`,
+`asap_tbl()` and `mptp_tbl()`) will not work natively on Windows
+operating systems, only on Unix (MacOS, Linux). This is because third
+party binaries (executable programs) are required. We have implemented a
+Windows solution by importing results from the webservers that are
+commonly used to run these analyses, e.g. ABGD, ASAP, and
+[mPTP](https://mptp.h-its.org/). There are also difficulties with
+installing R required package dependancies to run `gmyc_tbl()` and
+`bgmyc_tbl()` because these are no longer under development and
+available on CRAN, and must be installed from archived sources. Please
+refer to <https://legallab.github.io/delimtools/articles/install.html>
+for instructions on how to install. A tutorial vignette running through
+all major package functionality is found at
+<https://legallab.github.io/delimtools/articles/delimtools.html>.
 
 ## Overview
 
@@ -48,8 +50,8 @@ single-locus species delimitations.
 
 ## Dependencies
 
-Delimtools mainly depends on the [tidyverse](https://www.tidyverse.org/)
-and [ggtree](https://github.com/YuLab-SMU/ggtree) packages. To install
+Delimtools mainly depends on the [tidyverse](https://tidyverse.org/) and
+[ggtree](https://github.com/YuLab-SMU/ggtree) packages. To install
 these, run the command lines below:
 
 Install `tidyverse`:
@@ -92,12 +94,12 @@ renv::install("LegalLab/delimtools@v0.1.0")
 
 ## Examples
 
-Here, we will demonstrate a single-locus species delimitation analysis
-on a *Geophagus* eartheater cichlid dataset ([Ximenes et al.,
+Here, we will demonstrate plotting a single-locus species delimitation
+analysis of a *Geophagus* eartheater cichlid dataset ([Ximenes et al.,
 2021](https://doi.org/10.7717/peerj.12443)) using a variety of methods.
-For full details please see the GitHub repository accompanying this R
-package at
-[github.com/boopsboops/delimtools-testing](https://github.com/boopsboops/delimtools-testing).
+A tutorial vignette running through all major package functionality is
+found at
+<https://legallab.github.io/delimtools/articles/delimtools.html>.
 
 <figure>
 <img
@@ -130,34 +132,11 @@ delim_autoplot(delim = geophagus_delims,
                col_vec = cols,
                hexpand = 0.7,
                widths = c(0.5, 0.5))
-#> Warning: `aes_()` was deprecated in ggplot2 3.0.0.
-#> ℹ Please use tidy evaluation idioms with `aes()`
-#> ℹ The deprecated feature was likely used in the ggtree package.
-#>   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.
-#> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
-#> Warning in fortify(data, ...): Arguments in `...` must be used.
-#> ✖ Problematic arguments:
-#> • as.Date = as.Date
-#> • yscale_mapping = yscale_mapping
-#> • hang = hang
-#> • color = "grey50"
-#> • size = 1
-#> ℹ Did you misspell an argument name?
 #> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 #> ℹ Please use `linewidth` instead.
 #> ℹ The deprecated feature was likely used in the ggtree package.
 #>   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.
-#> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
-#> Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
-#> ℹ Please use tidy evaluation idioms with `aes()`.
-#> ℹ See also `vignette("ggplot2-in-packages")` for more information.
-#> ℹ The deprecated feature was likely used in the ggtree package.
-#>   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.
-#> This warning is displayed once every 8 hours.
+#> This warning is displayed once per session.
 #> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 #> generated.
 ```

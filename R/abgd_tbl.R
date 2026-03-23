@@ -45,20 +45,30 @@
 #' path_to_file <- system.file("extdata/geophagus.fasta", package = "delimtools")
 #'
 #' # run ABGD
-#' abgd_df <- abgd_tbl(
+#' abgd_df <- try( abgd_tbl(
 #'   infile = path_to_file,
 #'   exe = "/usr/local/bin/abgd",
 #'   model = 3,
 #'   slope = 0.5,
 #'   outfolder = NULL
 #' )
-#'
+#')
 #' # check
-#' abgd_df
+#' try(abgd_df)
 #' }
 #'
 #' @export
 abgd_tbl <- function(infile, exe = NULL, haps = NULL, slope = 1.5, model = 3, outfolder = NULL, webserver = NULL, delimname = "abgd") {
+  
+  # check if FASTA file is aligned, otherwise exit gracefully
+  dna <- ape::read.dna(infile, format = "fasta")
+  seq_lengths <- sapply(dna, length)
+  same_length <- length(unique(seq_lengths)) == 1
+  if (!same_length) {
+    cli::cli_alert_info("FASTA input not aligned. Not running ABGD. No ABGD table returned.")
+    return(invisible(NULL))
+  }
+  
   dname <- rlang::sym(delimname)
   
   # check if `readr` is installed
@@ -104,22 +114,33 @@ abgd_tbl <- function(infile, exe = NULL, haps = NULL, slope = 1.5, model = 3, ou
     cli::cli_abort("Error: Please provide a valid results directory.")
   }
 
-
   string_abgd <- glue::glue("{exe} -d {model} -X {slope} -o {outfolder} {infile}")
 
   res <- system(command = string_abgd, intern = TRUE)
 
   # fpath <- glue::glue('{outfolder}/{stringr::str_split_fixed(basename(infile), "\\\\.", 2)[,1]}.part.1.txt')
   fpath <- glue::glue("{outfolder}/{tools::file_path_sans_ext(basename(infile))}.part.1.txt")
-  
-  delim <- readr::read_delim(fpath, delim = ";", col_names = c(delimname, "labels"), col_types = "c")
+
+  if (file.exists(fpath)) {
+    delim <- readr::read_delim(fpath, delim = ";", col_names = c(delimname, "labels"), col_types = "c")
+  }
+  else {
+    # make delim for only 1 partition
+    # Group[ 0 ] n: 6 ;id: ASV26 ASV8 ASV18 ASV94 ASV7 ASV93 ...
+    dna <- ape::read.dna(infile, format = "fasta")
+    n <- nrow(dna)
+    ids <- rownames(dna)
+    ids_string <- paste(gsub('"', '', ids), collapse = " ")
+    one_grp <- paste0("Group[ 0 ] n: ", n, " ;id: ", ids_string)
+    delim <- readr::read_delim(I(one_grp), delim = ";", col_names = c(delimname, "labels"), col_types = "c")
+  }
 
   delim <- delim |>
     dplyr::mutate(!!dname := 1:nrow(delim)) |>
     dplyr::mutate(labels = stringr::str_replace_all(labels, "id: ", "")) |>
     tidyr::separate_longer_delim(cols = labels, delim = " ") |>
     dplyr::relocate(labels, .before = !!dname)
-
+  
   if (!is.null(haps)) {
     delim <- delim |> dplyr::filter(labels %in% haps)
   }

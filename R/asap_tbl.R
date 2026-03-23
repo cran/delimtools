@@ -45,15 +45,24 @@
 #' path_to_file <- system.file("extdata/geophagus.fasta", package = "delimtools")
 #' 
 #' # run ASAP
-#' asap_df <- asap_tbl(infile = path_to_file, exe= "/usr/local/bin/asap", model= 3)
+#' asap_df <- try(asap_tbl(infile = path_to_file, exe= "/usr/local/bin/asap", model= 3))
 #' 
 #' # check
-#' asap_df
+#' try(asap_df)
 #' 
 #' }
 #'
 #' @export
 asap_tbl <- function(infile, exe = NULL, haps = NULL, model = 3, outfolder = NULL, webserver = NULL, delimname = "asap") {
+  
+  # check if FASTA file is aligned, otherwise exit gracefully
+  dna <- ape::read.dna(infile, format = "fasta")
+  seq_lengths <- sapply(dna, length)
+  same_length <- length(unique(seq_lengths)) == 1
+  if (!same_length) {
+    cli::cli_alert_info("FASTA input not aligned. Not running ASAP. No ASAP table returned.")
+    return(invisible(NULL))
+  }
   
   # check if `readr` is installed
   rlang::check_installed("readr", reason= "to execute `ASAP` properly.")
@@ -106,11 +115,21 @@ asap_tbl <- function(infile, exe = NULL, haps = NULL, model = 3, outfolder = NUL
   # ASAP has weird issues when full path for infile is not provided.
   string_asap <- glue::glue("{exe} -d {model} -a -o {outfolder} {tools::file_path_as_absolute(infile)}")
   
-  res <- system(command=string_asap, intern = TRUE)
+  # suppress warning message that ASAP gives when it crashes due to finding only one partition
+  suppressWarnings(res <- system(command=string_asap, intern = TRUE))
   
   fpath <- glue::glue('{outfolder}/{basename(infile)}.Partition_1.csv')
-  
-  delim <- readr::read_csv(fpath, col_names = c("labels", delimname), col_types = "ci")
+
+  if (file.exists(fpath)) {
+    delim <- readr::read_csv(fpath, col_names = c("labels", delimname), col_types = "ci")
+  }
+  else {
+    # make delim for only 1 partition
+    dna <- ape::read.dna(infile, format = "fasta")
+    ids <- rownames(dna)
+    delim <- tibble::tibble(labels = ids, asap = 1) |>
+      dplyr::mutate(asap = as.integer(.data$asap))
+  }
   
   if(!is.null(haps)){
     
